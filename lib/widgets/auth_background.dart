@@ -30,9 +30,9 @@ class _HeaderIcon extends StatelessWidget {
         width: double.infinity,
         margin: const EdgeInsets.only(top: 30),
         child: const Icon(
-          Icons.person_add,
-          color: Colors.white,
-          size: 100,
+          Icons.person,
+          color:Colors.white,
+          size: 200,
         ),
       ),
     );
@@ -62,7 +62,7 @@ class _PurpleBox extends StatelessWidget {
   }
 
   BoxDecoration _purpleBackground() => BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
             Color.fromRGBO(63, 63, 156, 1),
             Color.fromRGBO(90, 70, 178, 1)
@@ -75,12 +75,12 @@ class _Bubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
+      width: 70,
       height: 100,
-     
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Color.fromRGBO(255, 255, 255, 0.05)),
+        borderRadius: BorderRadius.circular(100),
+        color: Color.fromRGBO(255, 255, 255, 0.05),
+      ),
     );
   }
 }
