@@ -1,24 +1,57 @@
 import 'package:flutter/material.dart';
 
 class LoginFormProvider extends ChangeNotifier {
-  GlobalKey<FormState> formKey =  GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String email = '';
-  String password = '';
+  String _usuario = '';
+  String _password = '';
+  Color _buttonColor = Colors.yellow;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  String get usuario => _usuario;
+  String get password => _password;
+  Color get buttonColor => _buttonColor;
+  String get emailPattern => _emailPattern;
 
-  set isLoading(bool value) {
-    _isLoading = value;
+  final String _emailPattern =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+  void setUsuario(String value) {
+    _usuario = value;
+    _updateButtonColor();
     notifyListeners();
   }
 
-  bool isValidForm() {
-    print(formKey.currentState?.validate());
+  void setPassword(String value) {
+    _password = value;
+    _updateButtonColor();
+    notifyListeners();
+  }
 
-    print('$email - $password');
+  bool isFormValid()
+   {
+    //usa el validator de todos los campos
+    // return formKey.currentState?.validate() ?? false;
+    return usuario.isNotEmpty &&
+        password.isNotEmpty &&
+        checkIsPasswordValid() &&
+        checkIsEmailValid();
+  }
 
-    return formKey.currentState?.validate() ?? false;
+  bool checkIsEmailValid() {
+    RegExp regExp = RegExp(emailPattern);
+    return regExp.hasMatch(usuario);
+  }
+
+  bool checkIsPasswordValid() {
+    return password.length >= 8;
+  }
+
+  void _updateButtonColor() {
+    print('_updateButtonColor');
+    if (isFormValid()) {
+      _buttonColor = Colors.purple;
+    } else {
+      _buttonColor = Colors.yellow;
+    }
   }
 }

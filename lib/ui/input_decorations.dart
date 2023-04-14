@@ -13,6 +13,7 @@ class InputDecorations {
         focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.green, width: 2)),
         hintText: hintText,
+      
         labelText: labelText,
         labelStyle: const TextStyle(color: Colors.black),
         prefixIcon: prefixIcon != null

@@ -6,7 +6,11 @@ import 'package:provider/provider.dart';
 import '../../widgets/auth_background.dart';
 import '../../widgets/card_container.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget 
+{
+  //no se refresca si es constante, más rendimiento
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,6 +19,7 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 250),
+              //usar margen en el cardcontainer
               CardContainer(
                 child: Column(
                   children: [
@@ -31,15 +36,15 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 50),
-              Text(
+              const SizedBox(height: 50),
+              const Text(
                 'Crear una nueva cuenta',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
             ],
           ),
         ),
@@ -48,6 +53,7 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
+//poner en archivo
 class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -60,21 +66,21 @@ class _LoginForm extends StatelessWidget {
         children: [
           TextFormField(
             autocorrect: false,
-            //levantar teclado para validarlo
+            maxLength: 20,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecorations.authInputDecoration(
               hintText: 'john.doe@gmail.com',
-               labelText: 'Correo electrónico',
+              labelText: 'Correo electrónico',
               prefixIcon: Icons.alternate_email_rounded,
             ),
-            onChanged: (value) => loginForm.email = value,
-            validator: (value) {
-              String pattern =
-                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-              RegExp regExp = RegExp(pattern);
-              return regExp.hasMatch(value ?? '')
-                  ? null
-                  : 'El valor ingresado no es un correo valido';
+            onChanged: (value) => loginForm.setUsuario(value),
+            validator: (value) 
+            {
+              if (loginForm.checkIsEmailValid())
+              {
+                return null;
+              }
+              return 'El valor ingresado no es un correo valido';
             },
           ),
           const SizedBox(height: 30),
@@ -86,47 +92,33 @@ class _LoginForm extends StatelessWidget {
                 hintText: '*****',
                 labelText: 'Contraseña',
                 prefixIcon: Icons.remove_red_eye_outlined),
-            onChanged: (value) => loginForm.password = value,
-            validator: (value) {
-              return (value != null && value.length >= 6)
-                  ? null
-                  : 'La contraseña debe de ser de 6 caracteres';
+            onChanged: (value) 
+            {
+               loginForm.setPassword(value);
+            },
+            validator: (value) 
+            {
+              if (loginForm.checkIsPasswordValid()) 
+              {
+                return null;
+              }
+              return 'La contraseña debe de ser de 8 caracteres';
             },
           ),
           const SizedBox(height: 30),
-          MaterialButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            disabledColor: Colors.grey,
-            elevation: 0,
-            color: Colors.deepPurple,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: loginForm.buttonColor ),
+            onPressed: loginForm.isFormValid()
+                ? () {
+                    // acción cuando el botón es presionado
+                  }
+                : null,
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                child: Text(
-                  loginForm.isLoading ? 'Ingresando' : 'Aceptar',
+                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                child: const Text(
+                 'Aceptar',
                   style: TextStyle(color: Colors.white),
                 )),
-            onPressed:
-             loginForm.isLoading 
-            //  &&
-            //         loginForm.email.length != 0 &&
-            //         loginForm.password.length != 0
-                ? null
-                : () async {
-                    FocusScope.of(context).unfocus();
-
-                    if (!loginForm.isValidForm()) return;
-
-                    loginForm.isLoading = true;
-
-                    await Future.delayed(const Duration(seconds: 7));
-
-                    // TODO: validar si el login es correcto
-
-                    loginForm.isLoading = false;
-
-                    Navigator.pushReplacementNamed(context, 'home');
-                  },
           )
         ],
       ),
