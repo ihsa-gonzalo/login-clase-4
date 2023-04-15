@@ -37,11 +37,16 @@ class LoginScreen extends StatelessWidget
                 ),
               ),
               const SizedBox(height: 50),
-              const Text(
-                'Crear una nueva cuenta',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              InkWell(
+                onTap: () {
+                   Navigator.pushReplacementNamed(context, 'home');
+                },
+                child: const Text(
+                  'Crear una nueva cuenta',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 50),
@@ -106,22 +111,45 @@ class _LoginForm extends StatelessWidget {
             },
           ),
           const SizedBox(height: 30),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: loginForm.buttonColor ),
-            onPressed: loginForm.isFormValid()
-                ? () {
-                    // acción cuando el botón es presionado
-                  }
-                : null,
-            child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                child: const Text(
-                 'Aceptar',
-                  style: TextStyle(color: Colors.white),
-                )),
-          )
+          Button(loginForm: loginForm)
         ],
       ),
+    );
+  }
+}
+
+class Button extends StatelessWidget {
+  const Button({
+    super.key,
+    required this.loginForm,
+  });
+
+  final LoginFormProvider loginForm;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(backgroundColor: loginForm.buttonColor ),
+      onPressed: 
+           () async
+          {
+               {
+              FocusScope.of(context).unfocus();
+
+              if (!loginForm.isFormValid()) return;
+
+              await Future.delayed(const Duration(seconds: 7));
+
+              Navigator.pushReplacementNamed(context, 'home');
+            }   
+          },
+          
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+          child: const Text(
+           'Aceptar',
+            style: TextStyle(color: Colors.white),
+          )),
     );
   }
 }

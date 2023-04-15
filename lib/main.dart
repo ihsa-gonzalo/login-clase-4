@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login/ui/screens/home_screen.dart';
+import 'package:flutter_login/ui/screens/create_screen.dart';
 import 'package:flutter_login/ui/screens/login_screen.dart';
 
 void main() => runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       initialRoute: 'login',
       routes: {
         'login': (_) => LoginScreen(),
-        'home': (_) => HomeScreen(),
+        'home': (_) => CreateScreen(),
       },
       theme:
           ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
