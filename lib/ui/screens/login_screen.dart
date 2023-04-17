@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/providers/login_form_provider.dart';
 import 'package:flutter_login/ui/input_decorations.dart';
+import 'package:flutter_login/ui/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/User.dart';
 import '../../widgets/auth_background.dart';
 import '../../widgets/card_container.dart';
 
@@ -39,7 +41,7 @@ class LoginScreen extends StatelessWidget
               const SizedBox(height: 50),
               InkWell(
                 onTap: () {
-                   Navigator.pushReplacementNamed(context, 'home');
+                   Navigator.pushReplacementNamed(context, 'create');
                 },
                 child: const Text(
                   'Crear una nueva cuenta',
@@ -138,9 +140,15 @@ class Button extends StatelessWidget {
 
               if (!loginForm.isFormValid()) return;
 
-              await Future.delayed(const Duration(seconds: 7));
+              //await Future.delayed(const Duration(seconds: 7));
 
-              Navigator.pushReplacementNamed(context, 'home');
+              user miUsuario = user(loginForm.usuario,loginForm.password);
+          
+
+              Navigator.push(context, MaterialPageRoute(builder: (context) 
+              {
+                return HomeScreen(miUsuario: miUsuario,);
+              },));
             }   
           },
           
