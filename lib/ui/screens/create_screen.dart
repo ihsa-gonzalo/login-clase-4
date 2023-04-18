@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_login/model/user_model.dart';
 import 'package:flutter_login/providers/create_form_provider.dart';
+import 'package:flutter_login/ui/screens/home_screen.dart';
 import 'package:flutter_login/widgets/card_container.dart';
 import 'package:provider/provider.dart';
 
@@ -38,13 +40,26 @@ class _CreateForm extends StatelessWidget {
           TextFormName(createFormProvider: createFormProvider),
           TextFormPassword(createFormProvider: createFormProvider),
           TextFormPhone(createFormProvider: createFormProvider),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: createFormProvider.buttonColor),
             onPressed: () {
               print("${createFormProvider.isFormValid()}");
               if (!createFormProvider.isFormValid()) return;
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  user_model miUsuario = user_model(
+                      createFormProvider.email, createFormProvider.password,
+                      name: createFormProvider.name,
+                      phone: createFormProvider.phone);
+                  return HomeScreen(
+                    miUsuario,
+                  );
+                },
+              ));
             },
             child: Container(
                 padding:
@@ -59,5 +74,3 @@ class _CreateForm extends StatelessWidget {
     );
   }
 }
-
-
