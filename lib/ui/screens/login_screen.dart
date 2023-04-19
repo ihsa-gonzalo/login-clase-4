@@ -4,12 +4,11 @@ import 'package:flutter_login/ui/input_decorations.dart';
 import 'package:flutter_login/ui/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/User.dart';
+import '../../model/user_model.dart';
 import '../../widgets/auth_background.dart';
 import '../../widgets/card_container.dart';
 
-class LoginScreen extends StatelessWidget 
-{
+class LoginScreen extends StatelessWidget {
   //no se refresca si es constante, más rendimiento
   const LoginScreen({super.key});
 
@@ -41,7 +40,7 @@ class LoginScreen extends StatelessWidget
               const SizedBox(height: 50),
               InkWell(
                 onTap: () {
-                   Navigator.pushReplacementNamed(context, 'create');
+                  Navigator.pushReplacementNamed(context, 'create');
                 },
                 child: const Text(
                   'Crear una nueva cuenta',
@@ -81,10 +80,8 @@ class _LoginForm extends StatelessWidget {
               prefixIcon: Icons.alternate_email_rounded,
             ),
             onChanged: (value) => loginForm.setUsuario(value),
-            validator: (value) 
-            {
-              if (loginForm.checkIsEmailValid())
-              {
+            validator: (value) {
+              if (loginForm.checkIsEmailValid()) {
                 return null;
               }
               return 'El valor ingresado no es un correo valido';
@@ -99,14 +96,11 @@ class _LoginForm extends StatelessWidget {
                 hintText: '*****',
                 labelText: 'Contraseña',
                 prefixIcon: Icons.remove_red_eye_outlined),
-            onChanged: (value) 
-            {
-               loginForm.setPassword(value);
+            onChanged: (value) {
+              loginForm.setPassword(value);
             },
-            validator: (value) 
-            {
-              if (loginForm.checkIsPasswordValid()) 
-              {
+            validator: (value) {
+              if (loginForm.checkIsPasswordValid()) {
                 return null;
               }
               return 'La contraseña debe de ser de 8 caracteres';
@@ -131,31 +125,31 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: loginForm.buttonColor ),
-      onPressed: 
-           () async
-          {
-               {
-              FocusScope.of(context).unfocus();
+      style: ElevatedButton.styleFrom(backgroundColor: loginForm.buttonColor),
+      onPressed: () async {
+        {
+          FocusScope.of(context).unfocus();
 
-              if (!loginForm.isFormValid()) return;
+          if (!loginForm.isFormValid()) return;
 
-              //await Future.delayed(const Duration(seconds: 7));
+          //await Future.delayed(const Duration(seconds: 7));
 
-              user miUsuario = user(loginForm.usuario,loginForm.password);
-          
+          user_model miUsuario =
+              user_model(loginForm.usuario, loginForm.password);
 
-              Navigator.push(context, MaterialPageRoute(builder: (context) 
-              {
-                return HomeScreen(miUsuario: miUsuario,);
-              },));
-            }   
-          },
-          
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return HomeScreen(
+                miUsuario,
+              );
+            },
+          ));
+        }
+      },
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
           child: const Text(
-           'Aceptar',
+            'Aceptar',
             style: TextStyle(color: Colors.white),
           )),
     );
