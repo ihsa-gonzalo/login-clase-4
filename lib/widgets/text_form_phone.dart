@@ -13,8 +13,13 @@ class TextFormPhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextForm(keyboardType: TextInputType.phone,false,"Telefono", "Ingrese su telefono", Icons.phone, (value) {
-      createFormProvider.setName(value);
+    return TextForm(
+        keyboardType: TextInputType.phone,
+        false,
+        "Telefono",
+        "Ingrese su telefono",
+        Icons.phone, (value) {
+      createFormProvider.setPhone(value);
     }, (value) {
       if (value != null) {
         return createFormProvider.checkFieldEmpty(value);

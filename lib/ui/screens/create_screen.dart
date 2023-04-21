@@ -55,8 +55,12 @@ class _CreateForm extends StatelessWidget {
                       createFormProvider.email, createFormProvider.password,
                       name: createFormProvider.name,
                       phone: createFormProvider.phone);
+
+                  print("nombre: " + miUsuario.name);
+                  print("telefono: " + miUsuario.phone);
+
                   return HomeScreen(
-                    miUsuario,
+                    miUsuario: miUsuario,
                   );
                 },
               ));

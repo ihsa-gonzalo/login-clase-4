@@ -29,8 +29,7 @@ class CreateFormProvider extends ChangeNotifier {
 
   String get password => _password;
 
-  void setPassword(String value)
-  {
+  void setPassword(String value) {
     _password = value;
     _updateButtonColor();
     notifyListeners();
@@ -40,8 +39,7 @@ class CreateFormProvider extends ChangeNotifier {
 
   String get phone => _phone;
 
-  void setPhone(String value)
-  {
+  void setPhone(String value) {
     _phone = value;
     _updateButtonColor();
     notifyListeners();
@@ -57,6 +55,14 @@ class CreateFormProvider extends ChangeNotifier {
     return regExp.hasMatch(email);
   }
 
+  String? checkIsPasswordValid() {
+    if (password.length < 8) {
+      return "La contraseña debe tener al menos 8 caracteres";
+    } else {
+      return null;
+    }
+  }
+
   Color get buttonColor => _buttonColor;
 
   bool isFormValid() {
@@ -66,16 +72,19 @@ class CreateFormProvider extends ChangeNotifier {
       isValid = false;
     }
 
-    String? auxPassword = checkFieldEmpty(_password);
+    String? auxPassword = checkIsPasswordValid();
     if (auxPassword != null) {
       isValid = false;
     }
 
-    if (!checkIsEmailValid())
-    {
+    String? auxPhone = checkFieldEmpty(_phone);
+    if (auxPhone != null) {
       isValid = false;
     }
 
+    if (!checkIsEmailValid()) {
+      isValid = false;
+    }
 
     return isValid;
     //return (_name.isNotEmpty);

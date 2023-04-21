@@ -13,11 +13,12 @@ class TextFormPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextForm(true,"Contraseña", "Ingrese su contraseña", Icons.lock, (value) {
+    return TextForm(true, "Contraseña", "Ingrese su contraseña", Icons.lock,
+        (value) {
       createFormProvider.setPassword(value);
     }, (value) {
       if (value != null) {
-        return createFormProvider.checkFieldEmpty(value);
+        return createFormProvider.checkIsPasswordValid();
       } else {
         return null;
       }
